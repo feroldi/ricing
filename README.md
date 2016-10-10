@@ -9,7 +9,7 @@ to the sacred palace of unix ricing, the supreme art of transforming
 your trivial computer system into a powerful, useful and beautiful
 place.
 
-Some things to consider...  
+Some things to consider, however:
 
 * This is a book on how to understand the parts of your system,
 and use them to customize it as you please.
@@ -24,8 +24,9 @@ Don't be afraid of the terminal, my little reptile dragonfly!
 This book will teach you the wisdom of unix systems, no knowledge
 is wasteful. Although GUIs are important to a lot of
 people, using the terminal is a good experience for those who opt
-out of using it. This lead you to understand why we use it so much.
-One reason was already mentioned, let's rephrase for clarity: it's a standardized place
+out of using it. This leads you to understand why we use it so much.
+One reason was already mentioned, let's rephrase for
+clarity: it's a standardized place
 on all systems; if it is POSIX compliant, then I can use my CLI knowledge
 there, no matter the distribution or *unix-like variant*.
 Not relying on GUIs is a good thing because the same tasks
