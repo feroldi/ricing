@@ -14,8 +14,11 @@ Very simple:
 
     $ ./convert.sh
 
-This will convert the book into all of the supported formats. These copies are stored
-in their respective subdirectories.
+This will convert the markdown files from book into all of the supported formats.
+These copies are stored in their respective subdirectories.
+
+_Important_: Every chapter filename must be addded to `chapters.txt` for this to
+function properly.
 
 ## Adding more formats
 
