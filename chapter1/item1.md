@@ -78,7 +78,7 @@ this file. Note that this happy little syntax is not a standard,
 each program can decide on it's own.
 It may be an atypical syntax or a common one like xml or json.
 For a better introduction to such syntax, follow up the
-`Item2` of this chapter.
+[Item2](item2.md) of this chapter.
 
 What's important here is the textuality of unix configurations, they're
 all readable text files.
@@ -163,25 +163,126 @@ to build a nice home, it's important to make sure
 you have your dotfiles not dependent on the home itself.
 What I mean is that, although this is looking promising and all,
 our programs don't know, or aren't aware of our new folder structure.
-So in order to make this work properly, we must make a *link* from
-our dotfiles to `$HOME`.
+So in order to make this work properly, we must create a *symbolic link*
+from our dotfiles to `$HOME`.
 
-TODO explain linking and why we'd like to do so.
+---
+
+Before we go on this, let's just make sure there's no confusion
+about this detail of the file system. A _symbolic link_ is basically
+a shortcut to some file in that file system. Technically speaking,
+a symlink file holds a path name (literally a string inside it), which
+indicates what file or directory it is a shortcut for. It doesn't
+matter if the final file exists (which in this case would make
+our symlink a dangling link), because symlinks are weak. If
+you want to understand more about it, check `symlink(7)` out. For now,
+I only need you to know what a link is about.
+
+Creating symlinks is as easy as:
+
+    $ ln --symbolic file linkname
+
+`ln(1)` helps us with symbolic and hard links; the line above
+creates a symlink to `file`, with the name `linkname` (note
+that these parameters are paths, so you may use a directory instead
+of a file as well).
+
+Here goes a practical example. This is our current directory structure:
+
+    $ tree ~/
+    .
+    ├── bin
+    ├── etc
+    └── usr
+        └── ...
+
+Remember our ficticious window manager *ricewm*? Yeah, what
+about putting its dotfile inside `etc/`?
+
+    $ mv ~/.ricewmrc ~/etc/ricewmrc
+
+Note that we moved that local dotfile to `etc/` and renamed
+it so it doesn't have a dot. This makes our work easier, as
+we want those files hidden only if it's in our home directory.
+And `etc/` is going to only store dotfiles inside it, then it's
+okay to let them visible.
+
+But now the window manager is sad: it doesn't know where its
+dotfile has gone to! Solving this will make you a hero today.
+Yeah, you're damn right, we gotta create a symbolic link in our
+home, pointing to that dotfile.
+
+    # you can also use -s as short for --symbolic
+
+    $ ln -s ~/etc/ricewmrc ~/.ricewmrc
+
+And voilà! We just created the symlink `~/.ricewmrc`, which is
+successfully pointing to the dotfile `~/etc/ricewmrc`. That was easy.
+
+Next time you open your window manager, it will attempt to read
+`.ricewmrc` as it thinks it is its actual dotfile,
+but what really will happen under the hood is a
+redirection to that dotfile inside the dotfiles folder.
+
+PS: if you wanna know where a symlink is pointing to,
+use `readlink(1)` to show the content of a symlink. For example:
+
+    $ readlink ~/.ricewmrc
+    /home/user/etc/ricewmrc
+
+    # Or you could just use  `ls -l`
+    # which is more verbose
+
+    $ ls -l ~/.ricewmrc
+    lrwxrwxrwx 1 user user 31 Oct 11 12:49 .ricewmrc
+    -> /home/user/ricing/etc/ricewmrc
+
+_Warning_: Pay attention when creating symlinks, because you might
+end up screwing shit up all together. Why? Symbolic links don't
+care if the file it's pointing to exists. And when I said
+its actual content is just a path, I wasn't facilitating its
+functionality. See, you can happily create a symlink to a file that
+doesn't exist:
+
+    $ ln -s "this is fine" symlink
+
+And guess what?
+
+    $ readlink symlink
+    this is fine
+
+That doesn't even look like a path. The reason is pretty simple:
+you can put whatever you want inside a symlink. Even if you
+put a valid path, it won't get resolved, i.e. it will be
+considered a relative path. Like so:
+
+    $ ln -s etc/ricewmrc .ricewmrc
+    $ readlink .ricewmrc
+    etc/ricewmrc
+
+What happens if you start your window manager from
+some directory other than your home? The file system
+will try to resolve this path by putting the current one (the base name)
+together with the symlink's content. This explains the reason
+I used path names like `~/etc/example` (note the use of `~`):
+that name will be resolved to `$HOME/etc/example`, and
+I can sleep without worries.
+
+Fine, fine. Does that mean we have to manually link all
+the dotfiles, one by one?
+
+No! I mean, you may. Though that's not practical, and
+I suppose you are kind of a lazy person, am I wrong? No worries,
+I'm lazy as well.
+
+And that's why tools like
+[stow](https://www.gnu.org/software/stow/manual/stow.html) exist.
+I think the manual is pretty rich in detail and explains
+well how this tool works, so I don't need to open an item
+for it.
+
+---
 
 TODO explain separating folders in partitions and the reason
-behind it.
-
-
-## Item2: X resources
-
-*This item covers customization using X resource files and tools*
-
-TODO
-
-## Item3: Managing dotfiles
-
-*This item covers version control of configuration files*
-
-TODO
-
+behind it, and that's the end of this chapter.
 
