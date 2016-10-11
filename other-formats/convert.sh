@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 # Each subdirectory should contain a shell script
 # named 'gen.sh'. This script should take two
@@ -8,36 +8,36 @@
 
 generate_other_formats()
 {
+    directories="$(find . -maxdepth 1 -mindepth 1 -type d)"
+    echo "==========================="
+    echo " Found output directories:"
+    echo " $directories"
+    echo "==========================="
+    echo ""
+
     # Grab a list of all of subdirectories in the current directory
-    directories=( $(find . -maxdepth 1 -mindepth 1 -type d))
+    for i in $directories; do
+	while read -r current_file; do
+	    echo "Working on directory '$i', file '$current_file'"
 
-    echo    "==========================="
-    echo    " Found output directories:"
-    echo    " ${directories[@]}"
-    echo -e "===========================\n"
+	    # Make sure the 'gen.sh' exists
+	    if [ ! -f "$i/gen.sh" ]; then
+		echo " - Oops! '$i/gen.sh' does not exist. Skipping..."
+		continue
+	    else
+		echo " - Discovered '$i/gen.sh"
+	    fi
 
-    for i in ${directories[@]}; do
-	cat "chapters.txt" |
-	    while read -r current_file; do
-		echo "Working on directory '$i', file '$current_file'"
+	    filename="$current_file"
+	    barename="$(basename "$filename" | sed -r 's/.md$//g')"
 
-		# Make sure the 'gen.sh' exists
-		if [ ! -f "$i/gen.sh" ]; then
-		    echo " - Oops! '$i/gen.sh' does not exist. Skipping..."
-		    continue
-		else
-		    echo " - Discovered '$i/gen.sh"
-		fi
+	    echo " - Running '$i/gen.sh'"
+	    echo ""
 
-		filename="$current_file"
-		barename="$(echo "$(basename "$filename")" | sed -r 's/.md$//g')"
+	    (cd "$i" || exit 1; bash "gen.sh" "../$filename" "$barename" | genscript_output "$i/gen.sh")
 
-		echo -e " - Running '$i/gen.sh'\n"
-
-		(cd "$i"; bash "gen.sh" "../$filename" "$barename" | genscript_output "$i/gen.sh")
-
-		echo ""
-	    done
+	    echo ""
+	done < "chapters.txt"
     done
 }
 
