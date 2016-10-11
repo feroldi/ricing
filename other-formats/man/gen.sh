@@ -9,7 +9,7 @@ output_file="$barename.7"
 echo "Input:  $input_file"
 echo "Output: $output_file"
 
-if [ "x$(which pandoc)" == "xpandoc not found" ]; then
+if [ "x$(which pandoc)" = "xpandoc not found" ]; then
     echo "Pandoc is not installed; Cannot generate Man page"
     exit 1
 fi

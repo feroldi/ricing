@@ -51,7 +51,7 @@ output_format="$1"
 
 # If no options are specified, then generate all
 # of the other formats
-if [ "x$output_format" == "x" ]; then
+if [ "x$output_format" = "x" ]; then
     find . -maxdepth 1 -mindepth 1 -type d | \
 	while read -r directory; do
 	    generate_other_format "$directory"
