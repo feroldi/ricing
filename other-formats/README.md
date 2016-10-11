@@ -20,6 +20,13 @@ These copies are stored in their respective subdirectories.
 _Important_: Every chapter filename must be addded to `chapters.txt` for this to
 function properly.
 
+Alternatively, you can specify the format you wish to convert to. For example,
+to generate HTML:
+
+    $ ./convert.sh html
+
+This will generate the HTML version of the book.
+
 ## Adding more formats
 
 To add a new format, create a subdirectory with a sensible name
