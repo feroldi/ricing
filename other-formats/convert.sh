@@ -17,24 +17,27 @@ generate_other_formats()
     echo -e "===========================\n"
 
     for i in ${directories[@]}; do
-	echo "Working on directory '$i'"
+	cat "chapters.txt" |
+	    while read -r current_file; do
+		echo "Working on directory '$i', file '$current_file'"
 
-	# Make sure the 'gen.sh' exists
-	if [ ! -f "$i/gen.sh" ]; then
-	    echo " - Oops! '$i/gen.sh' does not exist. Skipping..."
-	    continue
-	else
-	    echo " - Discovered '$i/gen.sh"
-	fi
+		# Make sure the 'gen.sh' exists
+		if [ ! -f "$i/gen.sh" ]; then
+		    echo " - Oops! '$i/gen.sh' does not exist. Skipping..."
+		    continue
+		else
+		    echo " - Discovered '$i/gen.sh"
+		fi
 
-	filename=$1
-	barename=$(echo "$(basename "$filename")" | sed -r 's/.md$//g')
+		filename="$current_file"
+		barename="$(echo "$(basename "$filename")" | sed -r 's/.md$//g')"
 
-	echo -e " - Running '$i/gen.sh'\n"
+		echo -e " - Running '$i/gen.sh'\n"
 
-	(cd "$i"; bash "gen.sh" "../$filename" "$barename" | genscript_output "$i/gen.sh")
+		(cd "$i"; bash "gen.sh" "../$filename" "$barename" | genscript_output "$i/gen.sh")
 
-	echo ""
+		echo ""
+	    done
     done
 }
 
@@ -45,4 +48,4 @@ genscript_output()
     done
 }
 
-generate_other_formats ../chapter1.md
+generate_other_formats
