@@ -6,57 +6,56 @@
 # and the name of the markdown source file with the
 # file extension removed.
 
-generate_other_format()
+raise_error()
 {
-    directory="$1"
-    if [ ! -d "$directory" ]; then
-	echo "Error: '$directory' does not exist; Cannot generate"
-	echo "        specified format"
-	exit 1
-    fi
+    printf '%s: %s' "$(basename $0): $1"
+    exit 1
+}
+
+gen_format()
+{
+    DIR="$1"
+    test -d "$DIR" || {
+        raise_error "$DIR does not exist; cannot generate"
+                    " specified format"
+    }
     
-    # Grab a list of all of subdirectories in the current directory
-    while read -r current_file; do
-	echo "Working on directory '$directory', file '$current_file'"
+    # grab a list of all of subdirectories in the current directory
+    while read -r FILE; do
+        printf '%s\n' "$DIR/$FILE"
 
-	# Make sure the 'gen.sh' exists
-	if [ ! -f "$directory/gen.sh" ]; then
-	    echo " - Oops! '$directory/gen.sh' does not exist. Skipping..."
-	    continue
-	else
-	    echo " - Discovered '$directory/gen.sh"
-	fi
+        test ! -f "$directory/gen.sh" && {
+            printf '%s\n' "$DIR/gen.sh does not exist; skipping..."
+            continue
+        }
 
-	filename="$current_file"
-	barename="$(basename "$filename" | sed -r 's/.md$//g')"
+        BASE="$(basename -s .md "$FILE")"
 
-	echo " - Running '$directory/gen.sh'"
-	echo ""
+        printf '%s\n' "./$DIR/gen.sh"
 
-	(cd "$directory" || exit 1; bash "gen.sh" "../$filename" "$barename" \
-	     | genscript_output "$directory/gen.sh")
-
-	echo ""
+        (
+            cd "$DIR" || exit 1;
+            ./gen.sh "../$FILE" "$BASE" | genscript_output "$DIR/gen.sh"
+        )
     done < "chapters.txt"
 }
 
 genscript_output()
 {
-    while read -r line; do
-	echo "[$1]  $line"
+    while read -r LINE; do
+        printf '%s\n' "[$(printf '%s' "$1" | tr a-z A-Z)] $LINE"
     done
 }
 
-output_format="$1"
+while test $# -qt 0; do
+    case "$1" in
+        -h|--help)
+            usage
+            ;;
+        *)
+            gen_format "$1"
+            shift 1
+            ;;
+    esac
+done
 
-# If no options are specified, then generate all
-# of the other formats
-if [ "x$output_format" = "x" ]; then
-    find . -maxdepth 1 -mindepth 1 -type d | \
-	while read -r directory; do
-	    generate_other_format "$directory"
-	done
-else
-    # Otherwise, only generate the specified format
-    generate_other_format "$output_format"
-fi

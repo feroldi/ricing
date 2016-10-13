@@ -9,7 +9,7 @@ output_file="$barename.html"
 echo "Input:  $input_file"
 echo "Output: $output_file"
 
-if [ "x$(which pandoc)" = "xpandoc not found" ]; then
+if [ "$(which pandoc)" = "pandoc not found" ]; then
     echo "Pandoc is not installed; Cannot generate HTML"
     exit 1
 fi
