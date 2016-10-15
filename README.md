@@ -42,6 +42,27 @@ Isn't that great?
 I don't have a summary yet, but I'll provide one once this
 book gets some more pages.
 
+## More file formats
+
+In case Markdown won't do it, you can generate other formats
+by just running `make` in the repository directory. By default,
+it generates HTML files, and the result is placed at `build/html/`.
+
+    $ make
+    PD  chapter1/item2.md build/html/chapter1/item2.html
+    PD  chapter1/item3.md build/html/chapter1/item3.html
+    ...
+
+You can choose whatever format `pandoc` accepts. For example,
+if you want man-pages instead of html, just change the `OUT` variable:
+
+    $ make OUT=man
+    PD  chapter1/item2.md build/man/chapter1/item2.man
+    ...
+
+Note that these files will be placed at their respective
+folder, which has the format as its directory name.
+
 ## Donating
 
 I hadn't thought of profiting from it, but someone asked me if there
