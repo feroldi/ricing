@@ -16,4 +16,3 @@ $(OUTDIR)/$(OUT)/%.$(OUT): %.md
 
 clean:
 	@rm -rf "$(OUTDIR)/$(OUT)/"
-
