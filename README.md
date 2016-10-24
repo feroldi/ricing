@@ -11,7 +11,7 @@ place.
 
 Some things to take in consideration before opening this book:
 
-* This book is on how to understand the parts of your system,
+* This is a book about understanding the parts of your system,
 and customize them as you please.
 
 * You won't find anything related to GUIs (Graphical User Interfaces) in here.
@@ -24,7 +24,7 @@ Don't be afraid of the terminal, my little reptile dragonfly!
 No knowledge is wasteful, this book will teach you the wisdom of unix systems.
 Although GUIs may seem important to a wide array of individuals,
 using the terminal is even more of a valuable experience for those who opt
-out of using it. Learning to serpentine your way through them will reveal
+out of using it. Learning to find your way through them will reveal
 to you why we use them so much.
 One sensible reason was already mentioned. Let's rephrase it for the sake of
 clarity: it's a standardized interface
