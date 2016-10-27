@@ -224,7 +224,7 @@ Next time you open your window manager, it will attempt to read
 but what really will happen under the hood is a
 redirection to that dotfile inside the dotfiles folder.
 
-PS: if you wanna know where a symlink is pointing to,
+_NB_: if you wanna know where a symlink is pointing to,
 use `readlink(1)` to show the content of a symlink. For example:
 
     $ readlink ~/.ricewmrc
@@ -281,8 +281,55 @@ I think the manual is pretty rich in detail and explains
 well how this tool works, so I don't need to open an item
 for it.
 
+_PS_: Operations like deleting or moving a file won't
+affect the file a symlink is pointing to. It wouldn't be
+practical to never be able to delete a symlink, or move it, or
+do something else, which operates in the file system.
+
+For example:
+
+    # create a directory
+    $ mkdir -p ~/this/long/path/here/
+
+    # link that directory to `long_path/`
+    $ ln -s ~/this/long/path/here/ long_path
+    $ ls
+    this/  long_path
+
+    # remove `long_path`
+    $ rm long_path
+    $ ls
+    this/
+
+As you can see, only the symlink was deleted, whereas the original
+directory still exists.
+
 ---
 
 TODO explain separating folders in partitions and the reason
-behind it, and that's the end of this chapter.
+behind it.
+
+So far, we've learned how to organize and come up with
+a cozy home. However, home isn't the only place we need
+to care about. Take a look at `/` to see what I'm saying:
+
+    $ ls /
+    bin   dev  home  lib64       mnt  proc  run   srv  tmp  var
+    boot  etc  lib   lost+found  opt  root  sbin  sys  usr
+
+There are a lot of directories we have to take into account.
+
+> If I recall correctly, we can't simply move some directories
+> around on root!
+
+You are right. Why on earth would we want to change those paths?
+
+Thing is, there is another way of organizing `/` in order to
+achieve more flexible structures. It's not about rearranging
+directories, though. Rather, we may create partitions with specific
+purposes, and map those directories to our new parts. For example,
+our home would live outside the system root, in a partition with, say,
+100MiB? Yeah, that sounds good. For root itself, we could give it
+way less space, because usually a unix system won't take much space.
+Here, my whole 
 
