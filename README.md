@@ -2,36 +2,37 @@
 
 You know those awesome crunchy, sharp rices, with incredible
 tasty sauces, so tasty you can feel the intensity of
-its greatness inside your soul? Well, although I do like
+their greatness in your soul? Well, although I do like
 rice, I'm not talking about actual
 [rice](http://i.imgur.com/n3pz44B.png). I'm here to lead you
 to the sacred palace of unix ricing, the supreme art of transforming
-your trivial computer system into a powerful, useful and beautiful
+your trivial computer system into a powerful, useful, and beautiful
 place.
 
-Some things to consider, however:
+Some things to take in consideration before opening this book:
 
-* This is a book on how to understand the parts of your system,
-and use them to customize it as you please.
+* This is a book about understanding the parts of your system,
+and customize them as you please.
 
-* You won't find anything related to GUIs in here.
-That's primarily because GUIs aren't *standardized* or equal
-on all systems. Terminals are. And for this fair reason
-I'm only going to take CLIs (Command Line Interface)
-and TUI (Terminal User Interface) into account.
+* You won't find anything related to GUIs (Graphical User Interfaces) in here.
+That's primarily because GUIs aren't *standardized* or "equal"
+on all unix machines. However, terminals are and for this fair reason
+I'm only going to treat CLIs (Command Line Interface)
+and TUI (Terminal User Interface.)
 
 Don't be afraid of the terminal, my little reptile dragonfly!
-This book will teach you the wisdom of unix systems, no knowledge
-is wasteful. Although GUIs are important to a lot of
-people, using the terminal is a good experience for those who opt
-out of using it. This leads you to understand why we use it so much.
-One reason was already mentioned, let's rephrase for
-clarity: it's a standardized place
-on all systems; if it is POSIX compliant, then I can use my CLI knowledge
+No knowledge is wasteful, this book will teach you the wisdom of unix systems.
+Although GUIs may seem important to a wide array of individuals,
+using the terminal is even more of a valuable experience for those who opt
+out of using it. Learning to find your way through them will reveal
+to you why we use them so much.
+One sensible reason was already mentioned. Let's rephrase it for the sake of
+clarity: it's a standardized interface
+on all unix systems; if it is POSIX compliant, then you can assume you can use your CLI knowledge
 there, no matter the distribution or *unix-like variant*.
 Not relying on GUIs is a good thing because the same tasks
-can be performed using the same tools I'm already
-used to, on _any_ system.
+can be performed using the same tools you're already
+used to, on _any_ other system.
 
 The same files and tools you're gonna see along this book,
 are gonna be usable by any of you, readers.  
