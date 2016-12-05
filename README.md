@@ -64,6 +64,11 @@ if you want man-pages instead of html, just change the `OUT` variable:
 Note that these files will be placed at their respective
 folder, which has the format as its directory name.
 
+## Contributing
+
+Take a look at [CONTRIB.md](CONTRIB.md) before doing anything if you
+want to contribute. Also, do it with love. That's important. Love.
+
 ## Donating
 
 I hadn't thought of profiting from it, but someone asked me if there
