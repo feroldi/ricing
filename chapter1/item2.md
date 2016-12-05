@@ -11,22 +11,64 @@ For instance, a popular terminal emulator is `rxvt-unicode`, also known as `urxv
  
 Afterwards, launching a new terminal instance would (should) reflect the changes you made.
 
-If you want to remove any of your changes, use `sudo xrdb -remove`. 
+If you want to remove anything you merged, use `sudo xrdb -remove`. 
 
 ---
 
-I suppose that first section was a bit of a crash course, so now time for a bit of explanation. Here is my `.Xresources` file:
-_TODO_: Fully transpose .Xdefaults
+I suppose that first section was a bit of a crash course, so now time for a bit of explanation. Here is my `.Xdefaults` file:
 ```
+! special
 *.foreground: #ffffff
-*.background: #242a34
-*.color0: 
+*.background:   #242a34
+*.cursorColor:  #e1e1e1
+
+! black
+*.color0:       #5a5a5a
+*.color8:       #8c8c8c
+
+! red
+*.color1:	#de8990
+*.color9:	#d0a8ab
+
+! green
+*.color2:	#94daa9
+*.color10:	#bae8d2
+
+! yellow
+*.color3:	#dee7aa
+*.color11:	#d7c96b
+
+! blue
+*.color4:	#9cdbdf
+*.color12:	#6cb4dd
+
+! magenta
+*.color5:	#cca8c9
+*.color13:	#db79bf
+
+! cyan
+*.color6:	#9ad4c8
+*.color14:	#59b0b2
+
+! white
+*.color7:	#e1e1e1
+*.color15:	#f0f0f0
+
+URxvt*font: xft:tewi-font:size=10
+URxvt*geometry:         70x22
+URxvt*urlLauncher:         firefox
+URxvt*scrollBar:        false
+URxvt*scrollBar_right:        true
+URxvt*scrollColor: #000000
 ```
 Wow, that was a lot of info at once. Lets break it The.
 
 down most common optios here are prefixed with `*.` . These are global options, anything that uses the X resources database will use these colors. 
 
-Next are options prefixed byt `URxvt.` . These apply specifically to the software `urxvt` and are typically used for setting fonts and other `urxvt` specific options.
+Next are options prefixed byt `URxvt.` . These apply specifically to the software `urxvt` and are typically used for setting fonts and other `urxvt` specific options. 
+
+Comments start with `!` and end on a newline. You'll notice that befor each set of colors I specify what the refer to, e.g.
+`!magenta`. 
 
 This file can configure more than just these options, so explore around a little bit and see what all you can use it for.
 
