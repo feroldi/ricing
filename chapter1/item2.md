@@ -14,13 +14,11 @@ don't include an `appname` and prefix it only with *. This is typically a good i
 might be a better idea to set the on a per program basis. That way, you could use a different font for you bar and terminal.
 
 Classes are also a feature of X resources. They allow you to set multiple options at once. Classes are always capitalized, such as `xclock*Foreground`. I wont go into a lot of detail on these, as they are different
-for each program. 
+for each program. You can find list [here](https://stuff.mit.edu/afs/sipb/project/doc/ixresources/xres.html#extraresources). 
 
 ---
 
 Now, you amy think "Well, I'll set my colors in `.Xresources` and be good to go!". Not quite. We have to load these options somehow - turns out, there is already a tool to do so.
-
-_NB_: These commands must be run as root!
 
 `xrdb` Stands for X Resource Database Manager. It allows you to load you colors in for use. The most important options we'll talk about are `-merge` and `-remove`.
 
@@ -30,6 +28,27 @@ remove whatever options where previously loaded in.
 `-remove` will remove anything you merged in. This is good if you made a mistake with, for instance, a font that doesn't exist and now you program wont load. Pass the `-remove` option to `xrdb` and it will revert the last
 merge. 
 
-There are plenty of other options for `xrdb` that you should explore yourself. 
+There are plenty of other options for `xrdb` that you should explore yourself, but these are the essentials for ricing.
 
+---
 
+Well, now we know how to load in out custom colors and fonts. But, where do we put these files? Following the
+directory structure from [Item 1](./item1.md), these will all be in the `$HOME` directory. I lay them out like
+this:
+
+    $ tree ~/
+    .
+    |-- doc
+    |-- tmp
+    |-- img
+    |-- msc
+    |-- etc
+        |-- confs
+            |-- .Xresources
+    |-- dev
+    
+Then, we can call `xrdb` when we start X by running it from the `.xinitrc` file. Think of it as what `startx`
+reads from to know what to start when X does. Just place `xrdb -merge ~/etc/confs/.Xresources &` in it 
+and you should be good to go. Alternatively, you could use symlinks to accomplish the same thing. Symlinks where talked about in [Item 1](./item1.md).
+
+--- 
