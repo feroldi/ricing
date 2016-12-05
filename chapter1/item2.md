@@ -1,108 +1,35 @@
-# Item2: X resources
+## Item2: X resources
 
 *This item covers customization using X resource files and tools*
 
 ---
 
-A tool you will likely use often in your ricing adventures is `xrdb`. It allows you to easily manage changes to colors (and various other things) from file such as `.Xdefaults` and `.Xresources`.
+X resources provide a simple yet powerful way to customize your X session. With files such as `.Xresources`, you can easily assign colors and fonts globally or for specific applications. 
 
-For instance, a popular terminal emulator is `rxvt-unicode`, also known as `urxvt`. All of its configuration is done through a config file that is typically located in `$HOME`. Say you make changes to
-`.Xdefaults`, and want to make use of them. Simply launching a new terminal instance wont apply them; you have to make use of `xrdb`. Running `sudo xrdb -merge ~/.Xdefaults` will *merge* the changes into the X resource databse.
- 
-Afterwards, launching a new terminal instance would (should) reflect the changes you made.
+_NB_: If you have a `.Xdefaults` filea as opposed to a `.Xresources`, it may be a good idea to change it. `.Xdefaults` is reloaded everytime an X program starts, therefore less eddicient.
 
-If you want to remove anything you merged, use `sudo xrdb -remove`. 
+Most often, it is used to set colors globally and then application specific options, typically for a terminal. `urxvt` is a common item that has its options set in `.Xresources`. The syntax is quite simple,
+makeing it easy to read *and* write. The syntax typically follows `appname*resource*subresource...*subresource: value`. If you want a setting to apply to all applications that use the X Resources, 
+don't include an `appname` and prefix it only with *. This is typically a good idea when setting colors, since you likely want a uniform look throughout your system. For other options, such as fonts, it
+might be a better idea to set the on a per program basis. That way, you could use a different font for you bar and terminal.
 
----
-
-I suppose that first section was a bit of a crash course, so now time for a bit of explanation. Here is my `.Xdefaults` file:
-```
-! special
-*.foreground: #ffffff
-*.background:   #242a34
-*.cursorColor:  #e1e1e1
-
-! black
-*.color0:       #5a5a5a
-*.color8:       #8c8c8c
-
-! red
-*.color1:	#de8990
-*.color9:	#d0a8ab
-
-! green
-*.color2:	#94daa9
-*.color10:	#bae8d2
-
-! yellow
-*.color3:	#dee7aa
-*.color11:	#d7c96b
-
-! blue
-*.color4:	#9cdbdf
-*.color12:	#6cb4dd
-
-! magenta
-*.color5:	#cca8c9
-*.color13:	#db79bf
-
-! cyan
-*.color6:	#9ad4c8
-*.color14:	#59b0b2
-
-! white
-*.color7:	#e1e1e1
-*.color15:	#f0f0f0
-
-URxvt*font: xft:tewi-font:size=10
-URxvt*geometry:         70x22
-URxvt*urlLauncher:         firefox
-URxvt*scrollBar:        false
-URxvt*scrollBar_right:        true
-URxvt*scrollColor: #000000
-```
-Wow, that was a lot of info at once. Lets break it The.
-
-down most common optios here are prefixed with `*.` . These are global options, anything that uses the X resources database will use these colors. 
-
-Next are options prefixed byt `URxvt.` . These apply specifically to the software `urxvt` and are typically used for setting fonts and other `urxvt` specific options. 
-
-Comments start with `!` and end on a newline. You'll notice that befor each set of colors I specify what the refer to, e.g.
-`!magenta`. 
-
-This file can configure more than just these options, so explore around a little bit and see what all you can use it for.
+Classes are also a feature of X resources. They allow you to set multiple options at once. Classes are always capitalized, such as `xclock*Foreground`. I wont go into a lot of detail on these, as they are different
+for each program. 
 
 ---
 
-The `.xinitrc` file is what `startx` reads from to know what to launch in terms of a window manager. But it can do much more than simply start a window manager, and you would be wise to make use of that power. Here is how.
+Now, you amy think "Well, I'll set my colors in `.Xresources` and be good to go!". Not quite. We have to load these options somehow - turns out, there is already a tool to do so.
 
-One thing the `.xinitrc` file can do is run scripts! For instance, I have a custom bar script I run when I launch i3. My `.xinitrc` looks like this:
+_NB_: These commands must be run as root!
 
-```
-sh /home/sh/bin/scripts/barmk &
-exec i3
-```
+`xrdb` Stands for X Resource Database Manager. It allows you to load you colors in for use. The most important options we'll talk about are `-merge` and `-remove`.
 
-That is a very simple init file. All it does is call `sh` on a script, and start i3. Though, you can do much more than that, an important part of ricing is making you machine work best for you,
-and if running a script and starting a wm is all you need, so be it. The beauty of Unix :).
+`-merge` is used to merge you `.Xresources` file into the X Resource Databse. This will then make your colors visible to any applications that make use of them. Alternatively, you can use `-load` but do note that this will
+remove whatever options where previously loaded in. 
 
-You can also have it start applications. If you wanted to start `urxvt` when X does:
+`-remove` will remove anything you merged in. This is good if you made a mistake with, for instance, a font that doesn't exist and now you program wont load. Pass the `-remove` option to `xrdb` and it will revert the last
+merge. 
 
-```
-sh /home/sh/bin/scripts/barmk &
-exec i3
-urxvt
-```
+There are plenty of other options for `xrdb` that you should explore yourself. 
 
-This will start a terminal emulator after i3 starts. Keep in mind you can start just about any application that doesn't require root (since if it did, you would run `startx` with root priveleges and it would read from the `/etc/` config file -- probably not what you want). 
 
----
-Sometimes, I'll see some dotfiles where the user has setup all their colors in `.xinitrc`. This works, but isn't really the best. At a certain point, the file will become overloaded and hard to read. 
-This is the typical layout:
-
-`.xinitrc` -- For scripts and programs to start when you call `startx`
-
-`.Xdefaults` & `.Xresources` -- Colors and various application options.
-
----
- 
