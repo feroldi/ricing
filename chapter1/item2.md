@@ -13,8 +13,11 @@ makeing it easy to read *and* write. The syntax typically follows `appname*resou
 don't include an `appname` and prefix it only with *. This is typically a good idea when setting colors, since you likely want a uniform look throughout your system. For other options, such as fonts, it
 might be a better idea to set the on a per program basis. That way, you could use a different font for you bar and terminal.
 
-Classes are also a feature of X resources. They allow you to set multiple options at once. Classes are always capitalized, such as `xclock*Foreground`. I wont go into a lot of detail on these, as they are different
-for each program. You can find list [here](https://stuff.mit.edu/afs/sipb/project/doc/ixresources/xres.html#extraresources). 
+Classes are also a feature of X resources. They allow you to set multiple options at once. Classes are always capitalized, such as `xclock*Foreground: #ffffff` will set `xclock*foreground`, `xclock*hands`, and 
+`xclock*highlight` to the hex color `#ffffff`. I wont go into a lot of detail on these, as they are different
+for each program. You can find list [here](https://stuff.mit.edu/afs/sipb/project/doc/ixresources/xres.html#extraresources).
+
+_NB_: If you are familiar with C preprocessor constructs, you can make use of `#ifdef`, `#else`, and `#endif` here. 
 
 ---
 
@@ -32,8 +35,8 @@ There are plenty of other options for `xrdb` that you should explore yourself, b
 
 ---
 
-Well, now we know how to load in out custom colors and fonts. But, where do we put these files? Following the
-directory structure from [Item 1](./item1.md), these will all be in the `$HOME` directory. I lay them out like
+Well, now we know how to load in out custom colors and fonts. But, where do we put `.Xresources`? Following the
+directory structure from [Item 1](./item1.md), It will be in the `$HOME` directory. I lay them out like
 this:
 
     $ tree ~/
@@ -47,8 +50,8 @@ this:
             |-- .Xresources
     |-- dev
     
-Then, we can call `xrdb` when we start X by running it from the `.xinitrc` file. Think of it as what `startx`
+Then, we can call `xrdb` when we start X by running it from the `$HOME/.xinitrc` file. `$HOME/.xinitrc` is what `startx`
 reads from to know what to start when X does. Just place `xrdb -merge ~/etc/confs/.Xresources &` in it 
-and you should be good to go. Alternatively, you could use symlinks to accomplish the same thing. Symlinks where talked about in [Item 1](./item1.md).
+and you should be good to go. Alternatively, you could use symlinks to accomplish the same thing. Symlinks where explained in [Item 1](./item1.md).
 
 --- 
