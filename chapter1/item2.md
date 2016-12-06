@@ -6,7 +6,7 @@
 
 X resources provide a simple yet powerful way to customize your X session. With files such as `.Xresources`, you can easily assign colors and fonts globally or for specific applications. 
 
-_NB_: If you have a `.Xdefaults` filea as opposed to a `.Xresources`, it may be a good idea to change it. `.Xdefaults` is reloaded everytime an X program starts, therefore less eddicient.
+_NB_: If you have a `.Xdefaults` file as opposed to a `.Xresources`, it may be a good idea to change it. `.Xdefaults` is reloaded everytime an X program starts, therefore less eddicient.
 
 Most often, it is used to set colors globally and then application specific options, typically for a terminal. `urxvt` is a common item that has its options set in `.Xresources`. The syntax is quite simple,
 makeing it easy to read *and* write. The syntax typically follows `appname*resource*subresource...*subresource: value`. If you want a setting to apply to all applications that use the X Resources, 
