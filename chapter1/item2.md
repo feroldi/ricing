@@ -31,7 +31,7 @@ remove whatever options where previously loaded in.
 `-remove` will remove anything you merged in. This is good if you made a mistake with, for instance, a font that doesn't exist and now you program wont load. Pass the `-remove` option to `xrdb` and it will revert the last
 merge. 
 
-There are plenty of other options for `xrdb` that you should explore yourself, but these are the essentials for ricing.
+`xrdb` can have some *undesired* side effects if you aren't careful. It shouldn't cause any real problems, just 30 minutes of frustrated confusion as to why you colors are terribly wrong. 
 
 ---
 
