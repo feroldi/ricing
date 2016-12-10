@@ -72,6 +72,12 @@ Items shall be written like so.
 
     _PS_: Write a sort of related note in the end.
 
+In case you're writing a new whole item, place it at
+`night/item-subject`, where `subject` is a brief description of
+the subject. Then, when you finally pull request, I'll make
+some final changes and move it to some proper chapter and
+item counting.
+
 And that's about it.
 
 ### How do I submit my contribution?
