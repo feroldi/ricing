@@ -16,7 +16,7 @@ That said, let's start from any point.
 
 ## Item1: Directory structure
 
-_Abstract_: This item covers the structure of a regular unix-like system.
+_This item covers the structure of a regular unix-like system._
 
 Commonly, programs which can be customized will have
 a configuration file placed somewhere on the system. There are
@@ -40,7 +40,7 @@ configs locally, rather than relying on global ones.
 _NB_: You can have a middle ground, configs that are shared but at the same
 time configurable locally. This is achieved by letting the users have the
 same default home skeleton at their creation. The related location is
-`/etc/skel`. The files that goes there will automatically be copied to all
+`/etc/skel`. Files that goes there will automatically be copied to all
 new users home directories, it's in fact their home directory skeleton.
 
 So far, we've been using the term *configuration file* to represent
@@ -168,7 +168,7 @@ from our dotfiles to `$HOME`.
 
 ---
 
-Before we go on this, let's just make sure there's no confusion
+Before we go on with this, let's just make sure there's no confusion
 about this detail of the file system. A _symbolic link_ is basically
 a shortcut to some file in that file system. Technically speaking,
 a symlink file holds a path name (literally a string inside it), which
@@ -262,7 +262,7 @@ considered a relative path. Like so:
 
 What happens if you start your window manager from
 some directory other than your home? The file system
-will try to resolve this path by putting the current one (the base name)
+will try to resolve this path by putting the current one (the real path)
 together with the symlink's content. This explains the reason
 I used path names like `~/etc/example` (note the use of `~`):
 that name will be resolved to `$HOME/etc/example`, and
@@ -300,6 +300,11 @@ For example:
     $ rm long_path
     $ ls
     this/
+    $ tree this
+    this
+    └── long
+        └── path
+            └── here
 
 As you can see, only the symlink was deleted, whereas the original
 directory still exists.
@@ -327,9 +332,66 @@ You are right. Why on earth would we want to change those paths?
 Thing is, there is another way of organizing `/` in order to
 achieve more flexible structures. It's not about rearranging
 directories, though. Rather, we may create partitions with specific
-purposes, and map those directories to our new parts. For example,
-our home would live outside the system root, in a partition with, say,
-100MiB? Yeah, that sounds good. For root itself, we could give it
-way less space, because usually a unix system won't take much space.
-Here, my whole 
+purposes, and map those directories to them. For example,
+our `/home` would live outside the system root, in a partition with, say,
+100MiB? Yeah, that sounds good. For `/` (root dir) itself, we could
+give it way less space, because usually a unix-like system won't
+take much space for itself. Other directories such as
+`/boot` would get their own separated partition as well,
+and having only one kernel for
+all systems can save a lot of time (in case you're running a
+source-based distro, because you wouldn't need to compile the
+kernel again), and elimiate redundant data.
+
+That's cool and all, but what is a partition?
+
+In order to understand partitions, you might want to know what
+a file system is. However, we won't get into much details, so 
+here goes an ELI5 on partitions.
+
+Imagine you have an empty bucket.
+
+    /     \
+    |     |
+    |     |
+    |     |
+    |     |
+    \_____/
+
+And you fill this bucket with your system (pretend
+it's somewhat water).
+
+
+    /     \
+    |     |
+    |~~~~~|
+    |  /  |
+    |     |
+    \_____/
+
+Everything inside `/` is in the bucket as well. Your home, which
+means your personal files, scripts, configurations,
+and all the rest of the system, including libraries, programs, the
+kernel, global configurations etc. Now, this bucket
+has a size limit, which means we can't fill it
+with more stuff than it is capable of storing. When we're reaching
+its maximum capacity, it won't leak, but rather refuse to store
+more water.
+
+If you see your files and memory storage as a bucket
+of water, it becomes easier to understand that this whole
+mess is indeed a real mess. I mean, what happens when you install
+another system? In order to save your personal files and dotfiles,
+first you'd need to have another bucket store those (it might take
+time), then you are ready to install another system. In the end,
+you bring your stuff back to the original bucket, do some chores
+(again, might take a good time), and you call it a day.
+
+Some days later, you screw your system up for some stupid reason,
+and you are no longer able to log into it. Only way to fix this is
+through a live cd, so you can reinstall the system base. That means
+it is going to be a long afternoon. Copying those files to other
+partitions or devices, reinstalling stuff, then copying them back
+is just a boring way to spend your time. TODO
+
 

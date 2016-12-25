@@ -2,7 +2,7 @@ PD=pandoc
 OUT=html
 PDFLAGS=-s -f markdown
 OUTDIR=build
-MD_FILES = $(shell find -type f -name '*.md' | grep chapter)
+MD_FILES = $(shell ls -1 chapter*/item*.md | xargs realpath)
 OUT_FILES = $(patsubst ./%.md, $(OUTDIR)/$(OUT)/%.$(OUT), $(MD_FILES))
 
 .PHONY: all
