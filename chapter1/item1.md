@@ -392,6 +392,21 @@ and you are no longer able to log into it. Only way to fix this is
 through a live cd, so you can reinstall the system base. That means
 it is going to be a long afternoon. Copying those files to other
 partitions or devices, reinstalling stuff, then copying them back
-is just a boring way to spend your time. TODO
+is just a boring way to spend your time.
+
+SO... Why don't we just separate that bucket into pieces? It seems
+like it solves our problem, because then we wouldn't have to
+worry about personal files. And if you wonder why, the answer is quite
+simple actually: let's first have the bucket splitted:
+
+
+    /     \
+    |     |  /
+    |-----|
+    |     |  /home
+    |-----|
+    |     |  /boot
+    \_____/
+
 
 
