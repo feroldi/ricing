@@ -10,8 +10,8 @@ the X server resource database.
 
 So what's that X resource db or xrdb for short?
 
-Well, it's a hack that X servers use to keep track of some key value pair
-by stocking them in the root window. The root window is more or less the
+Well, it's a hack that X programs use to keep track of some key value pair
+by stocking them in and attribute on the root window. The root window is more or less the
 "background" on which all the other windows are drawn.
 
 And because it's a stable thing it turns it into the point that everyone
