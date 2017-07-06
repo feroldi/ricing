@@ -17,7 +17,7 @@ Issues are useful to keep track of plans, as it lets others
 interact and give their opinion, as well as organizing content.
 Treat it like an agenda: you open an issue describing a plan
 (what's the content, topics, where the file should go to etc),
-you follow it, then finnaly:
+you follow it, then call it a day. But before that:
 
 ## Fork and create a new branch from master
 
