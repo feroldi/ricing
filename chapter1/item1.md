@@ -57,21 +57,25 @@ window managers], and it's customizable via files
 placed either on `/etc` or via local files in the user's home.
 `ricewm` will be our fictitious window manager name.
 
-    $ ls /etc
-    ricewmrc
+```
+$ ls /etc
+ricewmrc
 
-    $ ls -a # use -a to show hidden files
-    .ricewmrc
+$ ls -a # use -a to show hidden files
+.ricewmrc
+```
 
 Okay, we have `ricewmrc` in `/etc` and `.ricewmrc` in `$HOME`. Not
 all programs will create a local dotfile, but for the sake of this
 ordinary example, I'll assume it's been created. If we take a look at
 `/etc/ricewmrc`, we'd probably see something like this:
 
-    $ cat /etc/ricewmrc
-    border_size: 2
-    border_focus: #343434
-    border_unfocus: #040404
+```
+$ cat /etc/ricewmrc
+border_size: 2
+border_focus: #343434
+border_unfocus: #040404
+```
 
 Cool, so we can change borders' size and colors by just editing
 this file. Note that this happy little syntax is not a standard,
@@ -111,14 +115,16 @@ for me and others so far.
 
 First, the home structure:
 
-    $ tree ~/
-    .
-    ├── doc
-    ├── tmp
-    ├── img
-    ├── msc
-    ├── etc
-    └── dev
+```
+$ tree ~/
+.
+├── doc
+├── tmp
+├── img
+├── msc
+├── etc
+└── dev
+```
 
 First four folders are user media related. There goes
 your stuff, like documents, your pictures, a download folder
@@ -129,16 +135,18 @@ dotfiles `etc` because it tells its purpose easily.
 That is the most basic setup folder I can think of. If you really
 prefer some more hierarchy, this would serve us as well:
 
-    $ tree ~/
-    .
-    ├── bin
-    ├── etc
-    └── usr
-        ├── dev
-        ├── doc
-        ├── img
-        ├── msc
-        └── tmp
+```
+$ tree ~/
+.
+├── bin
+├── etc
+└── usr
+    ├── dev
+    ├── doc
+    ├── img
+    ├── msc
+    └── tmp
+```
 
 Now we've got three main folders: `bin/`, `etc/` and `usr/`.
 Our dotfiles are still going to reside inside `etc/`,
@@ -180,7 +188,9 @@ I only need you to know what a link is about.
 
 Creating symlinks is as easy as:
 
-    $ ln --symbolic file linkname
+```
+$ ln --symbolic file linkname
+```
 
 `ln(1)` helps us with symbolic and hard links; the line above
 creates a symlink to `file`, with the name `linkname` (note
@@ -189,17 +199,21 @@ of a file as well).
 
 Here goes a practical example. This is our current directory structure:
 
-    $ tree ~/
-    .
-    ├── bin
-    ├── etc
-    └── usr
-        └── ...
+```
+$ tree ~/
+.
+├── bin
+├── etc
+└── usr
+    └── ...
+```
 
 Remember our ficticious window manager *ricewm*? Yeah, what
 about putting its dotfile inside `etc/`?
 
-    $ mv ~/.ricewmrc ~/etc/ricewmrc
+```
+$ mv ~/.ricewmrc ~/etc/ricewmrc
+```
 
 Note that we moved that local dotfile to `etc/` and renamed
 it so it doesn't have a dot. This makes our work easier, as
@@ -212,9 +226,11 @@ dotfile has gone to! Solving this will make you a hero today.
 Yeah, you're damn right, we gotta create a symbolic link in our
 home, pointing to that dotfile.
 
-    # you can also use -s as short for --symbolic
+```
+# you can also use -s as short for --symbolic
 
-    $ ln -s ~/etc/ricewmrc ~/.ricewmrc
+$ ln -s ~/etc/ricewmrc ~/.ricewmrc
+```
 
 And voilà! We just created the symlink `~/.ricewmrc`, which is
 successfully pointing to the dotfile `~/etc/ricewmrc`. That was easy.
@@ -227,15 +243,17 @@ redirection to that dotfile inside the dotfiles folder.
 _NB_: if you wanna know where a symlink is pointing to,
 use `readlink(1)` to show the content of a symlink. For example:
 
-    $ readlink ~/.ricewmrc
-    /home/user/etc/ricewmrc
+```
+$ readlink ~/.ricewmrc
+/home/user/etc/ricewmrc
 
-    # Or you could just use  `ls -l`
-    # which is more verbose
+# Or you could just use  `ls -l`
+# which is more verbose
 
-    $ ls -l ~/.ricewmrc
-    lrwxrwxrwx 1 user user 31 Oct 11 12:49 .ricewmrc
-    -> /home/user/ricing/etc/ricewmrc
+$ ls -l ~/.ricewmrc
+lrwxrwxrwx 1 user user 31 Oct 11 12:49 .ricewmrc
+-> /home/user/ricing/etc/ricewmrc
+```
 
 _Warning_: Pay attention when creating symlinks, because you might
 end up screwing shit up all together. Why? Symbolic links don't
@@ -244,21 +262,27 @@ its actual content is just a path, I wasn't facilitating its
 functionality. See, you can happily create a symlink to a file that
 doesn't exist:
 
-    $ ln -s "this is fine" symlink
+```
+$ ln -s "this is fine" symlink
+```
 
 And guess what?
 
-    $ readlink symlink
-    this is fine
+```
+$ readlink symlink
+this is fine
+```
 
 That doesn't even look like a path. The reason is pretty simple:
 you can put whatever you want inside a symlink. Even if you
 put a valid path, it won't get resolved, i.e. it will be
 considered a relative path. Like so:
 
-    $ ln -s etc/ricewmrc .ricewmrc
-    $ readlink .ricewmrc
-    etc/ricewmrc
+```
+$ ln -s etc/ricewmrc .ricewmrc
+$ readlink .ricewmrc
+etc/ricewmrc
+```
 
 What happens if you start your window manager from
 some directory other than your home? The file system
@@ -288,23 +312,25 @@ do something else, which operates in the file system.
 
 For example:
 
-    # create a directory
-    $ mkdir -p ~/this/long/path/here/
+```
+# create a directory
+$ mkdir -p ~/this/long/path/here/
 
-    # link that directory to `long_path/`
-    $ ln -s ~/this/long/path/here/ long_path
-    $ ls
-    this/  long_path
+# link that directory to `long_path/`
+$ ln -s ~/this/long/path/here/ long_path
+$ ls
+this/  long_path
 
-    # remove `long_path`
-    $ rm long_path
-    $ ls
-    this/
-    $ tree this
-    this
-    └── long
-        └── path
-            └── here
+# remove `long_path`
+$ rm long_path
+$ ls
+this/
+$ tree this
+this
+└── long
+    └── path
+        └── here
+```
 
 As you can see, only the symlink was deleted, whereas the original
 directory still exists.
@@ -318,9 +344,11 @@ So far, we've learned how to organize and come up with
 a cozy home. However, home isn't the only place we need
 to care about. Take a look at `/` to see what I'm saying:
 
-    $ ls /
-    bin   dev  home  lib64       mnt  proc  run   srv  tmp  var
-    boot  etc  lib   lost+found  opt  root  sbin  sys  usr
+```
+$ ls /
+bin   dev  home  lib64       mnt  proc  run   srv  tmp  var
+boot  etc  lib   lost+found  opt  root  sbin  sys  usr
+```
 
 There are a lot of directories we have to take into account.
 
@@ -351,23 +379,26 @@ here goes an ELI5 on partitions.
 
 Imagine you have an empty bucket.
 
-    /     \
-    |     |
-    |     |
-    |     |
-    |     |
-    \_____/
+```
+/     \
+|     |
+|     |
+|     |
+|     |
+\_____/
+```
 
 And you fill this bucket with your system (pretend
 it's somewhat water).
 
-
-    /     \
-    |     |
-    |~~~~~|
-    |  /  |
-    |     |
-    \_____/
+```
+/     \
+|     |
+|~~~~~|
+|  /  |
+|     |
+\_____/
+```
 
 Everything inside `/` is in the bucket as well. Your home, which
 means your personal files, scripts, configurations,
@@ -407,6 +438,5 @@ simple actually: let's first have the bucket splitted:
     |-----|
     |     |  /boot
     \_____/
-
 
 
