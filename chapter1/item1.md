@@ -40,7 +40,7 @@ configs locally, rather than relying on global ones.
 _NB_: You can have a middle ground, configs that are shared but at the same
 time configurable locally. This is achieved by letting the users have the
 same default home skeleton at their creation. The related location is
-`/etc/skel`. Files that goes there will automatically be copied to all
+`/etc/skel`. Files that go there will automatically be copied to all
 new users home directories, it's in fact their home directory skeleton.
 
 So far, we've been using the term *configuration file* to represent
