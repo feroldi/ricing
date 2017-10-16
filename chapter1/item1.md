@@ -16,7 +16,7 @@ That said, let's start from any point.
 
 ## Item1: Directory structure
 
-_Abstract_: This item covers the structure of a regular unix-like system.
+_This item covers the structure of a regular unix-like system._
 
 Commonly, programs which can be customized will have
 a configuration file placed somewhere on the system. There are
@@ -40,7 +40,7 @@ configs locally, rather than relying on global ones.
 _NB_: You can have a middle ground, configs that are shared but at the same
 time configurable locally. This is achieved by letting the users have the
 same default home skeleton at their creation. The related location is
-`/etc/skel`. The files that goes there will automatically be copied to all
+`/etc/skel`. Files that go there will automatically be copied to all
 new users home directories, it's in fact their home directory skeleton.
 
 So far, we've been using the term *configuration file* to represent
@@ -57,21 +57,25 @@ window managers], and it's customizable via files
 placed either on `/etc` or via local files in the user's home.
 `ricewm` will be our fictitious window manager name.
 
-    $ ls /etc
-    ricewmrc
+```
+$ ls /etc
+ricewmrc
 
-    $ ls -a # use -a to show hidden files
-    .ricewmrc
+$ ls -a # use -a to show hidden files
+.ricewmrc
+```
 
 Okay, we have `ricewmrc` in `/etc` and `.ricewmrc` in `$HOME`. Not
 all programs will create a local dotfile, but for the sake of this
 ordinary example, I'll assume it's been created. If we take a look at
 `/etc/ricewmrc`, we'd probably see something like this:
 
-    $ cat /etc/ricewmrc
-    border_size: 2
-    border_focus: #343434
-    border_unfocus: #040404
+```
+$ cat /etc/ricewmrc
+border_size: 2
+border_focus: #343434
+border_unfocus: #040404
+```
 
 Cool, so we can change borders' size and colors by just editing
 this file. Note that this happy little syntax is not a standard,
@@ -111,14 +115,16 @@ for me and others so far.
 
 First, the home structure:
 
-    $ tree ~/
-    .
-    ├── doc
-    ├── tmp
-    ├── img
-    ├── msc
-    ├── etc
-    └── dev
+```
+$ tree ~/
+.
+├── doc
+├── tmp
+├── img
+├── msc
+├── etc
+└── dev
+```
 
 First four folders are user media related. There goes
 your stuff, like documents, your pictures, a download folder
@@ -129,16 +135,18 @@ dotfiles `etc` because it tells its purpose easily.
 That is the most basic setup folder I can think of. If you really
 prefer some more hierarchy, this would serve us as well:
 
-    $ tree ~/
-    .
-    ├── bin
-    ├── etc
-    └── usr
-        ├── dev
-        ├── doc
-        ├── img
-        ├── msc
-        └── tmp
+```
+$ tree ~/
+.
+├── bin
+├── etc
+└── usr
+    ├── dev
+    ├── doc
+    ├── img
+    ├── msc
+    └── tmp
+```
 
 Now we've got three main folders: `bin/`, `etc/` and `usr/`.
 Our dotfiles are still going to reside inside `etc/`,
@@ -168,7 +176,7 @@ from our dotfiles to `$HOME`.
 
 ---
 
-Before we go on this, let's just make sure there's no confusion
+Before we go on with this, let's just make sure there's no confusion
 about this detail of the file system. A _symbolic link_ is basically
 a shortcut to some file in that file system. Technically speaking,
 a symlink file holds a path name (literally a string inside it), which
@@ -180,7 +188,9 @@ I only need you to know what a link is about.
 
 Creating symlinks is as easy as:
 
-    $ ln --symbolic file linkname
+```
+$ ln --symbolic file linkname
+```
 
 `ln(1)` helps us with symbolic and hard links; the line above
 creates a symlink to `file`, with the name `linkname` (note
@@ -189,17 +199,21 @@ of a file as well).
 
 Here goes a practical example. This is our current directory structure:
 
-    $ tree ~/
-    .
-    ├── bin
-    ├── etc
-    └── usr
-        └── ...
+```
+$ tree ~/
+.
+├── bin
+├── etc
+└── usr
+    └── ...
+```
 
 Remember our ficticious window manager *ricewm*? Yeah, what
 about putting its dotfile inside `etc/`?
 
-    $ mv ~/.ricewmrc ~/etc/ricewmrc
+```
+$ mv ~/.ricewmrc ~/etc/ricewmrc
+```
 
 Note that we moved that local dotfile to `etc/` and renamed
 it so it doesn't have a dot. This makes our work easier, as
@@ -212,9 +226,11 @@ dotfile has gone to! Solving this will make you a hero today.
 Yeah, you're damn right, we gotta create a symbolic link in our
 home, pointing to that dotfile.
 
-    # you can also use -s as short for --symbolic
+```
+# you can also use -s as short for --symbolic
 
-    $ ln -s ~/etc/ricewmrc ~/.ricewmrc
+$ ln -s ~/etc/ricewmrc ~/.ricewmrc
+```
 
 And voilà! We just created the symlink `~/.ricewmrc`, which is
 successfully pointing to the dotfile `~/etc/ricewmrc`. That was easy.
@@ -227,15 +243,17 @@ redirection to that dotfile inside the dotfiles folder.
 _NB_: if you wanna know where a symlink is pointing to,
 use `readlink(1)` to show the content of a symlink. For example:
 
-    $ readlink ~/.ricewmrc
-    /home/user/etc/ricewmrc
+```
+$ readlink ~/.ricewmrc
+/home/user/etc/ricewmrc
 
-    # Or you could just use  `ls -l`
-    # which is more verbose
+# Or you could just use  `ls -l`
+# which is more verbose
 
-    $ ls -l ~/.ricewmrc
-    lrwxrwxrwx 1 user user 31 Oct 11 12:49 .ricewmrc
-    -> /home/user/ricing/etc/ricewmrc
+$ ls -l ~/.ricewmrc
+lrwxrwxrwx 1 user user 31 Oct 11 12:49 .ricewmrc
+-> /home/user/ricing/etc/ricewmrc
+```
 
 _Warning_: Pay attention when creating symlinks, because you might
 end up screwing shit up all together. Why? Symbolic links don't
@@ -244,25 +262,31 @@ its actual content is just a path, I wasn't facilitating its
 functionality. See, you can happily create a symlink to a file that
 doesn't exist:
 
-    $ ln -s "this is fine" symlink
+```
+$ ln -s "this is fine" symlink
+```
 
 And guess what?
 
-    $ readlink symlink
-    this is fine
+```
+$ readlink symlink
+this is fine
+```
 
 That doesn't even look like a path. The reason is pretty simple:
 you can put whatever you want inside a symlink. Even if you
 put a valid path, it won't get resolved, i.e. it will be
 considered a relative path. Like so:
 
-    $ ln -s etc/ricewmrc .ricewmrc
-    $ readlink .ricewmrc
-    etc/ricewmrc
+```
+$ ln -s etc/ricewmrc .ricewmrc
+$ readlink .ricewmrc
+etc/ricewmrc
+```
 
 What happens if you start your window manager from
 some directory other than your home? The file system
-will try to resolve this path by putting the current one (the base name)
+will try to resolve this path by putting the current one (the real path)
 together with the symlink's content. This explains the reason
 I used path names like `~/etc/example` (note the use of `~`):
 that name will be resolved to `$HOME/etc/example`, and
@@ -288,18 +312,25 @@ do something else, which operates in the file system.
 
 For example:
 
-    # create a directory
-    $ mkdir -p ~/this/long/path/here/
+```
+# create a directory
+$ mkdir -p ~/this/long/path/here/
 
-    # link that directory to `long_path/`
-    $ ln -s ~/this/long/path/here/ long_path
-    $ ls
-    this/  long_path
+# link that directory to `long_path/`
+$ ln -s ~/this/long/path/here/ long_path
+$ ls
+this/  long_path
 
-    # remove `long_path`
-    $ rm long_path
-    $ ls
-    this/
+# remove `long_path`
+$ rm long_path
+$ ls
+this/
+$ tree this
+this
+└── long
+    └── path
+        └── here
+```
 
 As you can see, only the symlink was deleted, whereas the original
 directory still exists.
@@ -313,9 +344,11 @@ So far, we've learned how to organize and come up with
 a cozy home. However, home isn't the only place we need
 to care about. Take a look at `/` to see what I'm saying:
 
-    $ ls /
-    bin   dev  home  lib64       mnt  proc  run   srv  tmp  var
-    boot  etc  lib   lost+found  opt  root  sbin  sys  usr
+```
+$ ls /
+bin   dev  home  lib64       mnt  proc  run   srv  tmp  var
+boot  etc  lib   lost+found  opt  root  sbin  sys  usr
+```
 
 There are a lot of directories we have to take into account.
 
@@ -327,9 +360,83 @@ You are right. Why on earth would we want to change those paths?
 Thing is, there is another way of organizing `/` in order to
 achieve more flexible structures. It's not about rearranging
 directories, though. Rather, we may create partitions with specific
-purposes, and map those directories to our new parts. For example,
-our home would live outside the system root, in a partition with, say,
-100MiB? Yeah, that sounds good. For root itself, we could give it
-way less space, because usually a unix system won't take much space.
-Here, my whole 
+purposes, and map those directories to them. For example,
+our `/home` would live outside the system root, in a partition with, say,
+100MiB? Yeah, that sounds good. For `/` (root dir) itself, we could
+give it way less space, because usually a unix-like system won't
+take much space for itself. Other directories such as
+`/boot` would get their own separated partition as well,
+and having only one kernel for
+all systems can save a lot of time (in case you're running a
+source-based distro, because you wouldn't need to compile the
+kernel again), and elimiate redundant data.
+
+That's cool and all, but what is a partition?
+
+In order to understand partitions, you might want to know what
+a file system is. However, we won't get into much details, so 
+here goes an ELI5 on partitions.
+
+Imagine you have an empty bucket.
+
+```
+/     \
+|     |
+|     |
+|     |
+|     |
+\_____/
+```
+
+And you fill this bucket with your system (pretend
+it's somewhat water).
+
+```
+/     \
+|     |
+|~~~~~|
+|  /  |
+|     |
+\_____/
+```
+
+Everything inside `/` is in the bucket as well. Your home, which
+means your personal files, scripts, configurations,
+and all the rest of the system, including libraries, programs, the
+kernel, global configurations etc. Now, this bucket
+has a size limit, which means we can't fill it
+with more stuff than it is capable of storing. When we're reaching
+its maximum capacity, it won't leak, but rather refuse to store
+more water.
+
+If you see your files and memory storage as a bucket
+of water, it becomes easier to understand that this whole
+mess is indeed a real mess. I mean, what happens when you install
+another system? In order to save your personal files and dotfiles,
+first you'd need to have another bucket store those (it might take
+time), then you are ready to install another system. In the end,
+you bring your stuff back to the original bucket, do some chores
+(again, might take a good time), and you call it a day.
+
+Some days later, you screw your system up for some stupid reason,
+and you are no longer able to log into it. Only way to fix this is
+through a live cd, so you can reinstall the system base. That means
+it is going to be a long afternoon. Copying those files to other
+partitions or devices, reinstalling stuff, then copying them back
+is just a boring way to spend your time.
+
+SO... Why don't we just separate that bucket into pieces? It seems
+like it solves our problem, because then we wouldn't have to
+worry about personal files. And if you wonder why, the answer is quite
+simple actually: let's first have the bucket splitted:
+
+
+    /     \
+    |     |  /
+    |-----|
+    |     |  /home
+    |-----|
+    |     |  /boot
+    \_____/
+
 
