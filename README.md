@@ -1,4 +1,4 @@
-# Ricing yer system
+# Ricing your system
 
 You know those awesome crunchy, sharp rices, with incredible
 tasty sauces, so tasty you can feel the intensity of
@@ -35,7 +35,7 @@ can be performed using the same tools you're already
 used to, on _any_ other system.
 
 The same files and tools you're gonna see along this book,
-are gonna be usable by any of you, readers.  
+are gonna be usable by any of you, readers.
 Isn't that great?
 
 ## Summary
